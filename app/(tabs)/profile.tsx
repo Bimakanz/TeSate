@@ -1,264 +1,148 @@
-import ButtonPrimary from '@/components/ButtonPrimary'
-import TextInput from '@/components/TextInput'
-import { MaterialIcons } from '@expo/vector-icons'
-import { router } from 'expo-router'
-import React, { useState } from 'react'
-import {
-    Alert,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from 'react-native'
+import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, ScrollView, Image } from 'react-native'
+import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { router } from 'expo-router'
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
+import FormInput from '@/components/TextInput' 
 
-export default function Profile() {
-
-    // Data user — nanti bisa disambung ke state management / API
-    const [name, setName] = useState('Mang Saswi')
-    const [email, setEmail] = useState('mangsaswi@gmail.com')
-    const [phone, setPhone] = useState('081234567890')
-    const [address, setAddress] = useState('Jl Bambu Apus 3, Jakarta Timur')
-
-    const [isEditing, setIsEditing] = useState(false)
-
-    const handleSave = () => {
-        if (!name.trim()) {
-            Alert.alert('Ups!', 'Nama tidak boleh kosong ya.')
-            return
-        }
-        setIsEditing(false)
-        Alert.alert('Yeay!', 'Profil kamu berhasil disimpan 🎉')
-    }
-
-
-    return (
-        <SafeAreaView style={styles.safeArea}>
-            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-
-                {/* Header */}
-                <View style={styles.header}>
-                    <Text style={styles.headerTitle}>Profil Kamu</Text>
-                    <TouchableOpacity onPress={() => router.replace('/Login')} style={styles.logoutBtn}>
-                        <MaterialIcons name="logout" size={22} color="#e53935" />
-                    </TouchableOpacity>
-                </View>
-
-                {/* Avatar */}
-                <View style={styles.avatarSection}>
-                    <View style={styles.avatarCircle}>
-                        <Text style={styles.avatarInitial}>
-                            {name.trim().charAt(0).toUpperCase()}
-                        </Text>
-                    </View>
-                    <Text style={styles.avatarName}>{name}</Text>
-                    <Text style={styles.avatarEmail}>{email}</Text>
-
-                    <TouchableOpacity
-                        style={styles.editToggleBtn}
-                        onPress={() => setIsEditing(!isEditing)}
-                    >
-                        <MaterialIcons
-                            name={isEditing ? 'close' : 'edit'}
-                            size={16}
-                            color="#5CBB5C"
-                        />
-                        <Text style={styles.editToggleText}>
-                            {isEditing ? 'Batal Edit' : 'Edit Profil'}
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-
-                {/* Divider */}
-                <View style={styles.divider} />
-
-                {/* Section Label */}
-                <Text style={styles.sectionLabel}>Data Diri</Text>
-
-                {/* Form Fields */}
-                <TextInput
-                    placeholder="Nama Lengkap"
-                    value={name}
-                    onChangeText={setName}
-                    editable={isEditing}
-                    keyboardType="default"
-                    style={!isEditing ? styles.readOnly : undefined}
-                />
-
-                <TextInput
-                    placeholder="Email"
-                    value={email}
-                    onChangeText={setEmail}
-                    editable={isEditing}
-                    keyboardType="email-address"
-                    style={!isEditing ? styles.readOnly : undefined}
-                />
-
-                <TextInput
-                    placeholder="No. Handphone"
-                    value={phone}
-                    onChangeText={setPhone}
-                    editable={isEditing}
-                    keyboardType="phone-pad"
-                    style={!isEditing ? styles.readOnly : undefined}
-                />
-
-                {/* Divider */}
-                <View style={styles.divider} />
-
-                {/* Alamat Section */}
-                <Text style={styles.sectionLabel}>Alamat Pengiriman</Text>
-
-                <TextInput
-                    placeholder="Alamat Lengkap"
-                    value={address}
-                    onChangeText={setAddress}
-                    editable={isEditing}
-                    keyboardType="default"
-                    multiline
-                    style={[styles.addressInput, !isEditing ? styles.readOnly : undefined]}
-                />
-
-                {/* Save Button — only visible when editing */}
-                {isEditing && (
-                    <ButtonPrimary
-                        title="Simpan Perubahan"
-                        color="#5CBB5C"
-                        onPress={handleSave}
-                    />
-                )}
-
-                {/* Bottom Spacer */}
-                <View style={{ height: 30 }} />
-            </ScrollView>
+export default function Akun() {
+  return (
+    <View style={styles.container}>
+      {/* Bagian Atas Yaww: Background Sate */}
+      <ImageBackground 
+        source={require('../../assets/images/satewal.jpeg')} 
+        style={styles.headerBackground}
+      >
+        <SafeAreaView style={styles.headerNav}>
+          <TouchableOpacity onPress={() => router.back()}>
+            <Ionicons name="arrow-back" size={28} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Ionicons name="settings-outline" size={28} color="white" />
+          </TouchableOpacity>
         </SafeAreaView>
-    )
+      </ImageBackground>
+
+      {/* Bagian Bawah: Konten Putih */}
+      <View style={styles.contentCard}>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+          
+          {/* Form Section */}
+          <View style={styles.formGroup}>
+            <FormInput placeholder="Nama Lengkap" />
+            <FormInput placeholder="Email" />
+            <FormInput placeholder="Alamat" />
+            <FormInput placeholder="Kata Sandi" secureTextEntry={true} />
+          </View>
+
+          {/* Menu Links */}
+          <View style={styles.menuSection}>
+            <TouchableOpacity style={styles.menuItem}>
+              <Text style={styles.menuText}>Kebijakan dan Privasi</Text>
+              <Ionicons name="chevron-forward" size={20} color="#666" />
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={styles.menuItem}>
+              <Text style={styles.menuText}>Riwayat Order</Text>
+              <Ionicons name="chevron-forward" size={20} color="#666" />
+            </TouchableOpacity>
+          </View>
+
+          {/* Action Buttons */}
+          <View style={styles.buttonRow}>
+            <TouchableOpacity style={[styles.btn, styles.btnEdit]}>
+              <Text style={styles.btnText}>Edit Profile</Text>
+              <MaterialCommunityIcons name="pencil-outline" size={20} color="white" />
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={[styles.btn, styles.btnKeluar]}
+              onPress={() => router.replace('/Login')}
+            >
+              <Text style={styles.btnText}>Keluar</Text>
+              <MaterialCommunityIcons name="logout" size={20} color="white" />
+            </TouchableOpacity>
+          </View>
+
+        </ScrollView>
+      </View>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
-    safeArea: {
-        flex: 1,
-        backgroundColor: '#f7f7f7',
-    },
-    scrollContent: {
-        paddingBottom: 30,
-    },
-
-    // ── Header ──
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: 24,
-        paddingTop: 16,
-        paddingBottom: 8,
-        backgroundColor: 'white',
-    },
-    headerTitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: '#1a1a1a',
-    },
-    logoutBtn: {
-        padding: 6,
-    },
-
-    // ── Avatar ──
-    avatarSection: {
-        alignItems: 'center',
-        backgroundColor: 'white',
-        paddingVertical: 28,
-        paddingHorizontal: 24,
-    },
-    avatarCircle: {
-        width: 88,
-        height: 88,
-        borderRadius: 44,
-        backgroundColor: '#5CBB5C',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 14,
-        shadowColor: '#5CBB5C',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.35,
-        shadowRadius: 8,
-        elevation: 8,
-    },
-    avatarInitial: {
-        fontSize: 36,
-        fontWeight: 'bold',
-        color: 'white',
-    },
-    avatarName: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: '#1a1a1a',
-        marginBottom: 4,
-    },
-    avatarEmail: {
-        fontSize: 14,
-        color: '#888',
-        marginBottom: 14,
-    },
-    editToggleBtn: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 6,
-        paddingHorizontal: 18,
-        paddingVertical: 8,
-        borderRadius: 20,
-        borderWidth: 1.5,
-        borderColor: '#5CBB5C',
-        backgroundColor: 'white',
-    },
-    editToggleText: {
-        color: '#5CBB5C',
-        fontSize: 13,
-        fontWeight: '600',
-    },
-
-    // ── Section ──
-    divider: {
-        height: 8,
-        backgroundColor: '#f0f0f0',
-        marginVertical: 4,
-    },
-    sectionLabel: {
-        fontSize: 13,
-        fontWeight: '700',
-        color: '#888',
-        letterSpacing: 0.5,
-        textTransform: 'uppercase',
-        paddingHorizontal: 39,
-        marginTop: 16,
-        marginBottom: 4,
-    },
-
-    // ── Input ──
-    readOnly: {
-        backgroundColor: '#f5f5f5',
-        color: '#999',
-        borderColor: '#eee',
-    },
-    addressInput: {
-        minHeight: 80,
-        textAlignVertical: 'top',
-    },
-    logoutButtonBottom: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 8,
-        marginHorizontal: 24,
-        marginTop: 24,
-        paddingVertical: 14,
-        borderRadius: 14,
-        backgroundColor: '#e53935',
-    },
-    logoutButtonText: {
-        color: 'white',
-        fontSize: 15,
-        fontWeight: '700',
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  headerBackground: {
+    width: '100%',
+    height: 200,
+  },
+  headerNav: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    marginTop: 10,
+  },
+  contentCard: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    marginTop: -50, 
+    paddingHorizontal: 25,
+  },
+  scrollContent: {
+    paddingTop: 40,
+    paddingBottom: 20,
+  },
+  formGroup: {
+    marginBottom: 20,
+  },
+  menuSection: {
+    marginVertical: 10,
+    marginBottom: 40,
+  },
+  menuItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 15,
+    borderBottomWidth: 0, 
+  },
+  menuText: {
+    fontSize: 16,
+    color: '#333',
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  btn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 15,
+    borderRadius: 12,
+    width: '48%',
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+  },
+  btnEdit: {
+    backgroundColor: '#333333',
+  },
+  btnKeluar: {
+    backgroundColor: '#B80F3B', 
+  },
+  btnText: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginRight: 8,
+  }
 })

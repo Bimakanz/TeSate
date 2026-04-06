@@ -11,6 +11,7 @@ import {
     View,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useCart } from '../../context/CartContext'
 
 export default function DetailBarang() {
     const router = useRouter()
@@ -25,7 +26,9 @@ export default function DetailBarang() {
         stock: string
     }>()
 
+    const { addItem } = useCart()
     const [qty, setQty] = useState(1)
+    const [toastMsg, setToastMsg] = useState<string | null>(null)
 
     // Field-level fallback & error handling
     const title      = params.title?.trim()       || 'Nama produk tidak ditemukan'
@@ -55,7 +58,22 @@ export default function DetailBarang() {
     }
 
     const handleAddToCart = () => {
-        Alert.alert('Keranjang', `${qty}x ${title} ditambahkan ke keranjang!`)
+        if (!priceValid) {
+            Alert.alert('Ups!', 'Harga tidak valid.')
+            return
+        }
+        
+        addItem({
+            id: params.id,
+            title,
+            description,
+            price,
+            thumbnail: thumbnail ?? '',
+            category,
+        }, qty)
+
+        setToastMsg(`${title} ditambah ke keranjang.`)
+        setTimeout(() => setToastMsg(null), 2500)
     }
 
     const handleOrder = () => {
@@ -130,6 +148,13 @@ export default function DetailBarang() {
                     </Text>
                 </View>
             </ScrollView>
+
+            {/* Toast Notification */}
+            {toastMsg && (
+                <View style={styles.toastContainer}>
+                    <Text style={styles.toastText}>{toastMsg}</Text>
+                </View>
+            )}
 
             {/* Bottom Bar */}
             <View style={styles.bottomBar}>
@@ -263,6 +288,30 @@ const styles = StyleSheet.create({
     },
     priceBadgeError: {
         backgroundColor: '#e57373',
+    },
+
+    /* Toast */
+    toastContainer: {
+        position: 'absolute',
+        bottom: 120, // Di atas bottom bar
+        alignSelf: 'center',
+        backgroundColor: '#e8f5e9',
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: '#5CBB5C',
+        elevation: 4,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        zIndex: 10,
+    },
+    toastText: {
+        color: '#2e7d32', // Teks warna hijau
+        fontWeight: 'bold',
+        fontSize: 14,
     },
 
     /* Bottom Bar */

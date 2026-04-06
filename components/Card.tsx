@@ -1,6 +1,10 @@
 import { MaterialIcons } from '@expo/vector-icons'
 import React from 'react'
-import { Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+
+const { width } = Dimensions.get('window')
+// FlatList paddingHorizontal = 8 (total 16), Card margin = 6 (total 12 per card, 24 for 2). Total space = 40.
+const CARD_WIDTH = (width - 40) / 2
 
 interface CardProps {
     title: string
@@ -84,7 +88,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 14,
         overflow: 'hidden',
-        flex: 1,
+        width: CARD_WIDTH,
         margin: 6,
         height: 240,
         shadowColor: '#000',
