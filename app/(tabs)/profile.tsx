@@ -32,23 +32,6 @@ export default function Profile() {
         Alert.alert('Yeay!', 'Profil kamu berhasil disimpan 🎉')
     }
 
-    const handleLogout = () => {
-        Alert.alert(
-            'Yakin mau keluar?',
-            'Kamu harus login lagi kalau mau balik nih.',
-            [
-                { text: 'Batal', style: 'cancel' },
-                {
-                    text: 'Keluar',
-                    style: 'destructive',
-                    onPress: () => {
-                        // Langsung replace saja, tidak perlu dismissAll() kecuali kamu pakai modal
-                        router.replace('/Login')
-                    },
-                },
-            ]
-        )
-    }
 
     return (
         <SafeAreaView style={styles.safeArea}>
@@ -57,7 +40,7 @@ export default function Profile() {
                 {/* Header */}
                 <View style={styles.header}>
                     <Text style={styles.headerTitle}>Profil Kamu</Text>
-                    <TouchableOpacity onPress={handleLogout} style={styles.logoutBtn}>
+                    <TouchableOpacity onPress={() => router.replace('/Login')} style={styles.logoutBtn}>
                         <MaterialIcons name="logout" size={22} color="#e53935" />
                     </TouchableOpacity>
                 </View>
@@ -145,16 +128,6 @@ export default function Profile() {
                         onPress={handleSave}
                     />
                 )}
-
-                {/* Tombol Logout */}
-                <TouchableOpacity
-                    style={styles.logoutButtonBottom}
-                    onPress={handleLogout}
-                    activeOpacity={0.7}
-                >
-                    <MaterialIcons name="logout" size={20} color="white" />
-                    <Text style={styles.logoutButtonText}>Keluar dari Akun</Text>
-                </TouchableOpacity>
 
                 {/* Bottom Spacer */}
                 <View style={{ height: 30 }} />

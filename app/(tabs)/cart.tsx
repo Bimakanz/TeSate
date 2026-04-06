@@ -1,10 +1,7 @@
 import { useRouter } from 'expo-router'
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-
-// @ts-ignore
-import KosongSvg from '@/assets/images/Kosong.svg'
 
 export default function Cart() {
     const router = useRouter()
@@ -12,8 +9,13 @@ export default function Cart() {
     return (
         <SafeAreaView style={styles.safe}>
             <View style={styles.container}>
-                {/* Ilustrasi */}
-                <KosongSvg width={240} height={240} />
+                {/* Ilustrasi keranjang kosong */}
+                <Image
+                    source={require('@/assets/images/Kosong.png')}
+                    style={{ width: 240, height: 240 }}
+                    resizeMode="contain"
+                />
+
 
                 {/* Teks utama */}
                 <Text style={styles.title}>Kamu belum pesan loh</Text>
@@ -63,3 +65,4 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     },
 })
+

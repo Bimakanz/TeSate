@@ -1,35 +1,14 @@
 import { MaterialIcons } from '@expo/vector-icons'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React from 'react'
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-
-// @ts-ignore
-import KosongSvg from '../../assets/images/Kosong.svg'
 
 // ── Helper ─────────────────────────────────────────────────────
 const APP_FEE      = 2.0
 const DELIVERY_FEE = 5.0
 
 const fmt = (n: number) => `$${n.toFixed(2)}`
-
-// ── Error Boundary to safely render SVG ───────────────────────
-class SvgSafeWrapper extends React.Component<
-    { children: React.ReactNode; fallback: React.ReactNode },
-    { hasError: boolean }
-> {
-    constructor(props: any) {
-        super(props)
-        this.state = { hasError: false }
-    }
-    static getDerivedStateFromError() {
-        return { hasError: true }
-    }
-    render() {
-        if (this.state.hasError) return this.props.fallback
-        return this.props.children
-    }
-}
 
 // ── Component ──────────────────────────────────────────────────
 export default function Tunggu() {
@@ -76,23 +55,11 @@ export default function Tunggu() {
             >
                 {/* ── Illustration ── */}
                 <View style={{ alignItems: 'center', marginVertical: 20 }}>
-                    <SvgSafeWrapper
-                        fallback={
-                            /* Fallback jika SVG gagal render */
-                            <View style={{
-                                width: 180,
-                                height: 180,
-                                borderRadius: 90,
-                                backgroundColor: '#f0f0f0',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}>
-                                <MaterialIcons name="timer" size={80} color="#ccc" />
-                            </View>
-                        }
-                    >
-                        <KosongSvg width={200} height={220} />
-                    </SvgSafeWrapper>
+                    <Image
+                        source={require('../../assets/images/Pesanan.png')}
+                        style={{ width: 200, height: 220 }}
+                        resizeMode="contain"
+                    />
                 </View>
 
                 {/* ── Status Text ── */}
